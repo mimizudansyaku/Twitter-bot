@@ -2,6 +2,7 @@
 var express = require('express')
 var Twitter = require('twitter')
 var CronJob = require("cron").CronJob
+var dotenv = require('dotenv').config()
 
 var app = express()
 
