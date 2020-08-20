@@ -2,11 +2,11 @@
 var express = require('express')
 var Twitter = require('twitter')
 var CronJob = require("cron").CronJob
-var dotenv = require('dotenv')
+// var dotenv = require('dotenv')
 
 
 var app = express()
-dotenv.config()
+// dotenv.config()
 
 // ツイッターのキーとシークレットトークンを初期化（環境変数を使用）
 var twitter = new Twitter({
