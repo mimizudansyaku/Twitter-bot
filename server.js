@@ -29,7 +29,7 @@ new CronJob({
   start: true
 })
 
-/*
+
 // MySQL in Appデータベース接続詞
 var connectionString = process.env.MYSQLCONNSTR_localdb;
 var host = /Data Source=([0-9\.]+)\:[0-9]+\;/g.exec(connectionString)[1];
@@ -47,8 +47,8 @@ var connection = mysql.createConnection({
   database : database,
   debug    : true
 });
-*/
 
+/*
 var conn = mysql.createConnection({
   host: "database-testapp.mysql.database.azure.com",
   user: "mimizudansyaku@database-testapp",
@@ -56,7 +56,7 @@ var conn = mysql.createConnection({
   database: {your_database},
   port: 3306,
   ssl:{ca:fs.readFileSync({ca-cert filename})}
-});
+});*/
 
 
 
