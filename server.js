@@ -6,7 +6,7 @@ var mysql = require('mysql')
 var fs = require('fs')
 
 var app = express()
-
+var st = "ai"
 
 
 // ツイッターのキーとシークレットトークンを初期化（環境変数を使用）
