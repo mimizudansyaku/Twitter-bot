@@ -6,8 +6,6 @@ var mysql = require('mysql')
 var fs = require('fs')
 
 var app = express()
-var st = "ai"
-
 
 // ツイッターのキーとシークレットトークンを初期化（環境変数を使用）
 var twitter = new Twitter({
@@ -49,11 +47,11 @@ var connection = mysql.createConnection({
   debug    : true
 });*/
 
-var conn = mysql.createConnection({
+var connection = mysql.createConnection({
   host: "database-testapp.mysql.database.azure.com",
   user: "mimizudansyaku@database-testapp",
-  password: {your_password},
-  database: {your_database},
+  password: process.env['PASSWORD'],
+  database: "test",
   port: 3306
   // ssl:{ca:fs.readFileSync({ca-cert filename})}
 });
