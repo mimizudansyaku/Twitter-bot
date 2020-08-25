@@ -89,6 +89,24 @@ app.set('port', (process.env.PORT || 5000));
     res.send('Hello World')
 })
 
+//Twitter webhook用URLにてCRCリクエストを処理
+var crypto = require('crypto');
+
+app.get('/webhook/twitter', function(req, res) {
+  var crc_token = req.query.crc_token;
+  if (!crc_token) {
+    res.send('Error: crc_token missing from request.')
+  } else {
+    var signature = crypto.createHmac('sha256', process.env['CONSUMER_SECRET']).update(crc_token).digest('base64')
+    console.log(`receive crc check. token=${crc_token} res=${signature}`)
+    res.status(200);
+//    res.json({ response_token: `sha256=${signature}` })
+    res.send({
+      response_token: 'sha256=' + signature
+    })
+  }
+})
+
 app.listen(app.get('port'), function() {
 console.log("Node app is runnning at localhost:" + app.get('port'))
 })
