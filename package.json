@@ -19,6 +19,8 @@
     "fs": "0.0.1-security",
     "mysql": "^2.18.1",
     "package-lock.json": "^1.0.0",
+    "request": "^2.88.2",
+    "require": "^2.4.20",
     "twitter": "^1.7.1"
   }
 }
