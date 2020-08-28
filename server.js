@@ -20,7 +20,7 @@ var twitter = new Twitter({
 
 //'0 0 0-23/3 * * *' だと3時間ごと0分0秒
 //毎分 ↓
-var cronTime = '0 * * * * *'
+var cronTime = '0 0 * * * *'
 new CronJob({
   cronTime: cronTime,
   onTick: function() {
@@ -28,25 +28,6 @@ new CronJob({
   },
   start: true
 })
-
-/*
-// MySQL in Appデータベース接続詞
-var connectionString = process.env.MYSQLCONNSTR_localdb;
-var host = /Data Source=([0-9\.]+)\:[0-9]+\;/g.exec(connectionString)[1];
-var port = /Data Source=[0-9\.]+\:([0-9]+)\;/g.exec(connectionString)[1];
-var database = /Database=([0-9a-zA-Z]+)\;/g.exec(connectionString)[1];
-var username = /User Id=([a-zA-z0-9\s]+)\;/g.exec(connectionString)[1];
-var password = /Password=(.*)/g.exec(connectionString)[1];
-var exampleSql = "";
-
-var connection = mysql.createConnection({
-  host     : host,
-  port     : port,
-  user     : username,
-  password : password,
-  database : database,
-  debug    : true
-});*/
 
 var connection = mysql.createConnection({
   host: "database-testapp.mysql.database.azure.com",
@@ -108,13 +89,31 @@ app.get('/webhook/twitter', function(req, res) {
   }
 })
 
+// POSTされたデータをパースして使用する
 app.use(bodyParser());
-app.post('/webhook/twitter', function(req, res) {
-  var body = JSON.stringify(req.body, undefined, "\t")
-  console.log(body + ' ここまでよーん')
-  res.send('200 OK')
-})
 
-app.listen(app.get('port'), function() {
-console.log("Node app is runnning at localhost:" + app.get('port'))
+// Twitterからのeventを自分のWebhook URLで受け取る
+app.post('/webhook/twitter', function(req, res) {
+  // イベントがfollow_eventsの場合、相手のidをfollowerに格納
+  // フォローしてきた相手をフォローする。 鍵アカからのフォローはfollowイベント発火しない。
+  if (req.body.follow_events) {
+    res.setHeader('Content-Type', 'text/plain')
+    var follower = req.body.follow_events[0].source.id;
+    var screenName = req.body.follow_events[0].source.screen_name;
+    console.log('フォロワーのIDは、' + follower)
+    console.log('フォロワーのscreenNameは、' + screenName)
+
+    // フォロワーが自分自身でない場合のみフォローバック
+    if (follower != process.env['MYSELF']) {
+      var param = { user_id: follower }
+      twitter.post('friendships/create', param, function(err, tweet, response) {
+        console.log('------------フォロワー情報-------------')
+        console.log(tweet)
+
+        tweetRep('@' + screenName + ' さん、フォローありがとうございます！')
+      })
+    }
+
+  }
+    res.send('200 OK')
 })
