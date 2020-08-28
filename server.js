@@ -117,3 +117,20 @@ app.post('/webhook/twitter', function(req, res) {
   }
     res.send('200 OK')
 })
+
+
+// フォローありがとうございます返信リプ用の関数
+function tweetRep(arg) {
+  twitter.post('statuses/update', {status: arg}, function(err, tweet, response) {
+    if(err) {
+      return console.log(err)
+    }else{
+      return console.log('------------返信リプ内容-------------' + JSON.stringify(tweet, undefined,"\t"))
+    }
+  })
+}
+
+
+app.listen(app.get('port'), function() {
+console.log("Node app is runnning at localhost:" + app.get('port'))
+})
