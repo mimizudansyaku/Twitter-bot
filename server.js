@@ -90,7 +90,7 @@ app.get('/webhook/twitter', function(req, res) {
 })
 
 // POSTされたデータをパースして使用する
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 // Twitterからのeventを自分のWebhook URLで受け取る
 app.post('/webhook/twitter', function(req, res) {
