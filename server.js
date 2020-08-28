@@ -6,6 +6,7 @@ var mysql = require('mysql')
 var fs = require('fs')
 
 var app = express()
+var bodyParser = require('body-parser')
 
 // ツイッターのキーとシークレットトークンを初期化（環境変数を使用）
 var twitter = new Twitter({
@@ -105,6 +106,13 @@ app.get('/webhook/twitter', function(req, res) {
       response_token: 'sha256=' + signature
     })
   }
+})
+
+app.use(bodyParser());
+app.post('/webhook/twitter', function(req, res) {
+  var body = JSON.stringify(req.body, undefined, "\t")
+  console.log(body + ' ここまでよーん')
+  res.send('200 OK')
 })
 
 app.listen(app.get('port'), function() {

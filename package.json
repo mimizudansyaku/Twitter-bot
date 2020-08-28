@@ -12,6 +12,7 @@
     "node": "~0.10.0 || ~4.2.0"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cron": "^1.4.1",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
