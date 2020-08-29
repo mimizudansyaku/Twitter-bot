@@ -19,7 +19,7 @@ var twitter = new Twitter({
 
 
 //'0 0 0-23/3 * * *' だと3時間ごと0分0秒
-//毎分 ↓
+//毎時 ↓
 var cronTime = '0 0 * * * *'
 new CronJob({
   cronTime: cronTime,
